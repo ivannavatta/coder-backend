@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const productCollection = 'products'
+const productCollection = 'product'
 
 const prodcutShema = new mongoose.Schema({
     name:  String,

@@ -49,6 +49,9 @@ router.get('/:pid', async (req, res) => {
         .json({status: 'succes', payload: 'Product created'})
        } catch (error) {
         console.log(error);
+        if(code === 11000){
+            res.status(HTTP_CONSTANTS.Bad_Request).json({ status: 'error', error: 'Email existed'})
+        }
         res
         .status(HTTP_CONSTANTS.Internal_Server_Error)
         .json({ status: 'error', error})
