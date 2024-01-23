@@ -45,17 +45,33 @@ const getUser = async () =>{
           })
           
 
-          chatbox.addEventListener('keyup', e => {
-            if(e.key == 'Enter'){
+          chatbox.addEventListener('keyup', async (e) => {
+            if (e.key === 'Enter') {
                 const data = {
                     message: chatbox.value,
-                    userName: user.value
-                }
-                chatbox.value = ''
+                    user: user.value
+                };
         
-                socket.emit('messages', data)
+                chatbox.value = '';
+                socket.emit('messages', data);
+        
+                // fetch ma enviar los msj del chat a la base de datos
+                try {
+                    await fetch('/api/messages', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        
+                        body: JSON.stringify(data)
+                        
+                    });
+                    console.log('data:',data);
+                } catch (error) {
+                    console.error('Error al enviar el mensaje al servidor:', error);
+                }
             }
-        })
+        });
     } catch (error) {
         console.log(error);
     }
@@ -69,7 +85,7 @@ getUser()
 socket.on('messagesLogs', data =>{
     let messages = ''
     data.forEach(chat => ( 
-        messages += `${chat.userName}: ${chat.message} <br>`
+        messages += `${chat.user}: ${chat.message} <br>`
     ));
 
     chatContainer.innerHTML = messages

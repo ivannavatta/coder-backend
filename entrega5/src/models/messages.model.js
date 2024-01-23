@@ -5,7 +5,7 @@ const messageCollection = 'messages'
 const messageShema = new mongoose.Schema({
     user:{
         type: String,
-        unique: true,
+        
         required: true,
         match: /.+\@.+\..+/,
     },
