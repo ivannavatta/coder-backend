@@ -19,7 +19,14 @@ router.post('/', async (req, res) => {
         email: user.email
     }
 
-    res.redirect('/products')
+
+    req.session.save(err => {
+    if(err) {
+        console.log(err);
+    } else {
+        res.redirect('/products')
+    }
+})
     } catch (error) {
         res.json({ status: 'error', 'error': error})
     }

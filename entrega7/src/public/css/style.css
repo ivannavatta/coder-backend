@@ -266,6 +266,30 @@ h2{
   
   /* login */
 
+  .github-btn {
+    margin-top: 20px;
+}
+
+.github-btn button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: transparent;
+    color: #000;
+    padding: 10px;
+    border: 2px solid #000;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.github-icon {
+    margin-right: 8px;
+}
+
+
+
+
   .super-container {
     display: flex;
     justify-content: center;

@@ -2,14 +2,14 @@ const { Router } = require('express')
 const productDao = require('../dao/mongo/product-dao.mongo')
 const HTTP_RESPONSES = require('../constants/http_responses')
 const Product = require('../model/product.model')
-const auth = require('../middleware/auth.middleware')
+const privateAcces = require('../middlewares/private-acces.middleware')
 
 const router = Router()
 
 const ProductManager = new productDao()
 
 
-router.get('/', auth, async (req, res) => {
+router.get('/', privateAcces, async (req, res) => {
     try {
         const {limit, name, sort, page = 1} = req.query
 

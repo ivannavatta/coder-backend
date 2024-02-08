@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const CartDao = require('../dao/mongo/cart-dao.mongo')
 const HTTP_RESPONSES = require('../constants/http_responses')
-const auth = require('../middleware/auth.middleware')
+const privateAcces = require('../middlewares/private-acces.middleware')
 
 
 const router = Router()
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
    
 })
 
-router.get('/:cid', auth, async (req, res) => {
+router.get('/:cid', privateAcces, async (req, res) => {
     try {
         const { cid } = req.params;
         const cartById = await Cart.findByIdCart(cid);
