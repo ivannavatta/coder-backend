@@ -4,15 +4,12 @@ const { generateToken } = require('../utils/jwt.util')
 
 const router = Router()
 
-router.post('/', passport.authenticate('login', {failureRedirect: '/auth/fail-login'}), (req, res) =>{
+router.post('/', passport.authenticate('login', {failureRedirect: '/auth/fail-login'}), async (req, res) =>{
     try {
-        console.log('--------');
         const userToken = {
             id: req.user.id,
             role: req.user.role
         }
-        console.log(userToken);
-
         const token = generateToken(userToken)
 
         res.cookie('authToken', token, {maxAge: 6000, httpOnly: true}).json({ status: 'success', payload: 'Logged in'})
@@ -34,14 +31,7 @@ router.get('/fail-login', (req, res) => {
     .json({ status: 'error', error: 'Bad request'})
 })
 
-// router.get('/logout', (req, res) => {
-//     req.session.destroy(err => {
-//         if(err) {
-//             return res.json({ success: false, message: err });
-//         }
-//         res.json({ success: true, message: 'Sesión destruida correctamente' });
-//     });
-// })
+
 
 router.get('/github', passport.authenticate('github', {scope: ['user: email']}), (req, res) =>{
 

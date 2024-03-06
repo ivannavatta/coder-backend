@@ -5,7 +5,7 @@ const cookieExtractor = require('../utils/cookie-extractor.util')
 const GithubStrategy = require('passport-github2')
 const { createHash, useValidPassword } = require('../utils/crypt-password.util')
 const { ghClientID, ghClientSecret } = require('./github.config')
-const Users = require('../model/user.model')
+const Users = require('../DAO/mongo/models/user.model')
 
 const LocalStrategy = local.Strategy
 const JWTStrategy = jwt.Strategy
@@ -39,7 +39,7 @@ const initializePassport = () => {
     ) )
 
     passport.use('login', new LocalStrategy(
-        {usernameField: 'email'},
+        {usernameField: 'email', session: false},
         async (username, password, done) => {
             try {
                 const user = await Users.findOne({ email: username})
@@ -53,11 +53,9 @@ const initializePassport = () => {
                     console.log('La contrasenia no es correcta');
                     return done(null, false)
                 }
-                // console.log(user);
+
                 return done(null, user)
-                
             } catch (error) {
-                console.log('error', error);
                 return done(error)
             }
           
