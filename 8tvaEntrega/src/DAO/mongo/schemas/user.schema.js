@@ -24,8 +24,6 @@ const userSchema = new mongoose.Schema({
     githubUsername: String
 })
 
-userSchema.pre('find', function(){
-  this.populate('carts.cart')
-})
+
 
 module.exports = userSchema

@@ -6,6 +6,7 @@ const GithubStrategy = require('passport-github2')
 const { createHash, useValidPassword } = require('../utils/crypt-password.util')
 const { ghClientID, ghClientSecret } = require('./github.config')
 const Users = require('../DAO/mongo/models/user.model')
+const Cart = require('../DAO/mongo/models/cart.model')
 
 const LocalStrategy = local.Strategy
 const JWTStrategy = jwt.Strategy
@@ -22,7 +23,7 @@ const initializePassport = () => {
                      console.log('User exists');
                      return done(null, false)
                 } 
-
+                
                 const newUserInfo = {
                     first_name,
                     last_name,
@@ -30,6 +31,11 @@ const initializePassport = () => {
                     password: createHash(password),
                 }
                 const newUser = await Users.create(newUserInfo)
+                //crear carrito a un usario
+                const newCart = await Cart.create({ user: newUser._id })
+                newUser.cart = newCart._id
+                
+                await newUser.save()
 
                 return done(null, newUser)
             } catch (error) {
