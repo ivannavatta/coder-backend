@@ -22,7 +22,7 @@ const initializePassport = () => {
                      console.log('User exists');
                      return done(null, false)
                 } 
-
+                
                 const newUserInfo = {
                     first_name,
                     last_name,
@@ -30,6 +30,11 @@ const initializePassport = () => {
                     password: createHash(password),
                 }
                 const newUser = await Users.create(newUserInfo)
+                //crear carrito a un usario
+                const newCart = await Cart.create({ user: newUser._id })
+                newUser.cart = newCart._id
+                
+                await newUser.save()
 
                 return done(null, newUser)
             } catch (error) {

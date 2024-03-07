@@ -14,17 +14,12 @@ const userSchema = new mongoose.Schema({
       enum: ['user', 'admin', 'superAdmin'],
       default: 'user',
     },
-    carts: {
-      type: [ {
-       cart: {
-           type: ObjectId,
-           ref: 'cart'
-       }
-       
-      }
-       
-       ]
-   },
+    cart: {
+      
+      type: ObjectId,
+      ref: 'cart'
+
+},
     githubId: Number,
     githubUsername: String
 })
