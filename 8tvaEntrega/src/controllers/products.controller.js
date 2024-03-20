@@ -1,23 +1,26 @@
 const { Router } = require('express')
 const productsService = require('../services/products.service')
 const productsPaginate = require('../utils/products-paginate.util')
-const redirectToLogin = require('../middlewares/private-access.middleware')
-const passport = require('passport')
+const authenticateJWT = require('../middlewares/authenticateToken.middleware')
+
 
 const router = Router()
 
-router.get('/',passport.authenticate('jwt', {session: false}), redirectToLogin, async (req, res) => {
+router.get('/',authenticateJWT, async (req, res) => {
     try {
    const { limit, name, sort, page } = req.query
   
 
    const { docs, hasPrevPage, hasNextPage, nextPage, prevPage} = await productsPaginate({ limit, page, sort, name })
    const products = docs
-   console.log(req.user);
+   const user = req.user.user.first_name
+   console.log(user);
+   console.log('req user:',req.user);
    res
    .render('home.handlebars', 
    { 
-   
+    isAuthenticate: true,
+    user,
     products,
     hasPrevPage,
     hasNextPage,

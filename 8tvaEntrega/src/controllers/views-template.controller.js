@@ -3,13 +3,13 @@ const { Router } = require('express')
 const router = Router()
 
 router.get('/login', (req, res) =>{
-    // const isAuthenticated = req.user !== undefined;
-    res.render('login.handlebars', {style: 'style.css'})
+    
+    res.render('login.handlebars', {style: 'style.css', isAuthenticate: null})
 })
 
 router.get('/signup', (req, res) =>{
-    const isAuthenticated = req.user !== undefined;
-    res.render('signup.handlebars', {style: 'style.css', isAuthenticated})
+    
+    res.render('signup.handlebars', {style: 'style.css', isAuthenticate: null})
 })
 
 module.exports = router

@@ -10,13 +10,14 @@ const initializePassport = require('./configs/passport.config');
 const app = express()
 
 app.use(express.json())
-app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static(process.cwd() + '/src/public/'))
+app.use(express.static(process.cwd() + '/src/public'))
 app.engine('handlebars', handlebars.engine())
 app.set('views', process.cwd() + '/src/views')
+app.use(cookieParser())
 initializePassport()
 app.use(passport.initialize())
+
 
 
 router(app)

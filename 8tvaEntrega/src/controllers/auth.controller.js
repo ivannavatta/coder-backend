@@ -1,20 +1,14 @@
 const { Router } = require('express')
 const passport = require('passport')
-const { generateToken } = require('../utils/jwt.util')
+
 
 const router = Router()
 
-router.post('/', passport.authenticate('login', {failureRedirect: '/auth/fail-login'}), async (req, res) =>{
+router.post('/', passport.authenticate('login', {failureRedirect: '/auth/fail-login', session: false}), async (req, res) =>{
     try {
-        const userToken = {
-            id: req.user.id,
-            role: req.user.role
-        }
-        const token = generateToken(userToken)
+        res.cookie('authToken', req.user, {maxAge: 36000000, httpOnly: true}).json({ status: 'success', payload: 'Logged in'})
 
-        res.cookie('authToken', token, {maxAge: 6000, httpOnly: true}).json({ status: 'success', payload: 'Logged in'})
-
-        res.redirect('/products')
+       
     } catch (error) {
         console.log(error);
         res
@@ -33,14 +27,23 @@ router.get('/fail-login', (req, res) => {
 
 
 
-router.get('/github', passport.authenticate('github', {scope: ['user: email']}), (req, res) =>{
+router.get('/github', passport.authenticate('github', { scope: ['user: email'], session: false }));
 
+router.get('/githubcallback', 
+  passport.authenticate('github', { failureRedirect: '/login', session: false }), 
+  (req, res) => {
+    res.cookie('authToken', req.user);
+    res.redirect('/products');
+  }
+);
+
+
+router.get('/logout', (req, res) => {
+    res.clearCookie('authToken');
+
+    // Puedes enviar una respuesta al cliente si lo deseas
+    console.log('cookie eliminada');
+    res.redirect('/login')
 })
-
-router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), (req, res) =>{
-    
-    res.redirect('/products')
-})
-
 
 module.exports = router

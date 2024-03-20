@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const cartsServices = require('../services/carts.service')
-const redirectToLogin = require('../middlewares/private-access.middleware')
+const authenticateJWT = require('../middlewares/authenticateToken.middleware')
 const router = Router()
 
 router.get('/', async (req, res) => {
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
    
 })
 
-router.get('/:cid', redirectToLogin, async (req, res) => {
+router.get('/:cid',authenticateJWT, async (req, res) => {
     try {
         const { cid } = req.params;
         const cartById = await cartsServices.findById(cid);
@@ -26,6 +26,7 @@ router.get('/:cid', redirectToLogin, async (req, res) => {
         } else {
             const total = cartsServices.calculateTotal(cartById)
             res.render('cart.handlebars', {
+                isAuthenticate: true,
                 cartById, 
                 total,
                 // isAuthenticated,

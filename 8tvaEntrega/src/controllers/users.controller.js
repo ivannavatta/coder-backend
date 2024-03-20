@@ -4,7 +4,7 @@ const passport = require('passport')
 
 const router = Router()
 
-router.post('/', passport.authenticate('register', {failureRedirect: '/users/fail-register'}), async (req, res) => {
+router.post('/', passport.authenticate('register', {failureRedirect: '/users/fail-register', session: false}), async (req, res) => {
     try {
         console.log(req.user);
         res
