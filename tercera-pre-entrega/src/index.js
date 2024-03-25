@@ -5,7 +5,8 @@ const cookieParser = require('cookie-parser');
 const { port } = require('./configs/app.config');
 const router = require('./router');
 const initializePassport = require('./configs/passport.config');
-const { Server } = require('socket.io')
+const { Server } = require('socket.io');
+const session = require('express-session');
 
 const app = express()
 
@@ -17,6 +18,12 @@ app.use(express.static(process.cwd() + '/src/public'))
 app.use(cookieParser())
 initializePassport()
 app.use(passport.initialize())
+
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+}));
 
 const hbs = handlebars.create({
     runtimeOptions: {

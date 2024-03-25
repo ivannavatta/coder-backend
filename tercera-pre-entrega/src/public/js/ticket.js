@@ -1,25 +1,12 @@
 const button1 = document.getElementById('hola')
 
-let cid;
-
-// Obtener el cid cuando se carga la página
-window.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const response = await fetch('/users/user-cart');
-        const data = await response.json();
-        cid = data.payload;
-        console.log('cid', cid);
-    } catch (error) {
-        console.error(error);
-    }
-});
-
 button1.addEventListener('click', async () => {
     try {
-    
+        const cid = window.location.pathname.split('/')[2];
         const res = await fetch(`/carts/${cid}/purchase`,{
             method: 'POST'
         })
+        
 
         if (res.ok) {
             if (res.redirected) {

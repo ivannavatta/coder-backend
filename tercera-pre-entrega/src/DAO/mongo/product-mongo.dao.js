@@ -28,12 +28,16 @@ class ProductMongoDao{
                 const quantity = product.quantity
     
                 const findProduct = await Product.findById(id)
-    
-                findProduct.stock -= quantity
-    
-                await findProduct.save()
-    
-                console.log(`el producto ${findProduct.name} cambio el stock de ${findProduct.stock} a ${findProduct.stock -= quantity}`);
+                if(findProduct.stock >= 0){
+                    findProduct.stock -= quantity
+                    await findProduct.save()
+        
+                    console.log(`el producto ${findProduct.name} cambio el stock de ${findProduct.stock += quantity} a ${findProduct.stock}`);
+                }
+                else{
+                    return
+                }
+               
             }
         } catch (error) {
             console.log(error);

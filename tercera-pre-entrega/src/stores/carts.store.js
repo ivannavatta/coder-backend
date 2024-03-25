@@ -60,10 +60,16 @@ const delateAllProductsInCart = async (cid) => {
 const deleted = async (id) => {
     await Cart.delated(id)
 }
-const upatedCart = async (cid, productsOutOfStock) => {
-    const productsOutOfStockInfo = await Cart.updatedCart(cid, productsOutOfStock)
+const productOutStockCart = async (cid, productsOutOfStock) => {
+    const productsOutOfStockInfo = await Cart.removeProductOutStockCart(cid, productsOutOfStock)
 
     return productsOutOfStockInfo
+}
+
+const saveCart = async cid => {
+    const cart = await Cart.saveCart(cid)
+
+    return cart
 }
 
 module.exports = {
@@ -78,6 +84,7 @@ module.exports = {
     delateOneProductInCart,
     delateAllProductsInCart,
     deleted,
-    upatedCart,
-    addProduct
+    productOutStockCart,
+    addProduct,
+    saveCart
 }

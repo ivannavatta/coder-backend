@@ -4,8 +4,8 @@ const authenticateJWT = require('../middlewares/authenticateToken.middleware')
 const authorization = require('../middlewares/authenticateRole.middleware')
 const productServices = require('../services/products.service')
 const userServices = require('../services/users.service')
-const checkStock = require('../utils/stock-product.util')
 const total = require('../utils/calculate-total.util')
+const checkStockInCart = require('../utils/stock-product.util')
 
 const router = Router()
 
@@ -28,7 +28,7 @@ router.get('/:cid',authenticateJWT, async (req, res) => {
             return res.status(404).json({ error: 'El carrito con el ID buscado no existe.' });
         } else {
             
-            const totalPrice = total(cartById)
+            const totalPrice = total(cartById.products)
             res.render('cart.handlebars', {
                 isAuthenticate: true,
                 cartById,
@@ -47,27 +47,41 @@ router.get('/:cid',authenticateJWT, async (req, res) => {
 router.get('/:cid/purchase', authenticateJWT, async (req, res) => {
     try {
         const { cid } = req.params
-        
         const cart =  await cartsServices.findById(cid)
         if (!cart) {
             return res.status(404).json({ error: 'Error a ver la orden de compra.'})
         } 
-        const { productsInStock, productsOutOfStock } = checkStock(cart)
-
-        const totalPrice = total(cart)
+        const { productsInStock } = checkStockInCart(cart)
+        const totalPrice = total(productsInStock)
+        const productsOutOfStock = req.session.productsOutOfStock || [];
+       
         const user = req.user.user.first_name
         res.render ('ticket.handlebars', { 
             style: 'style.css',
-            cart,
             productsInStock,
             productsOutOfStock,
+            cart,
             user,
-            totalPrice})
+            totalPrice
+        })
+        // Destruir la sesión
+        function destroy(){
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error('Error al cerrar sesión:', err);
+                    res.status(500).send('Error al cerrar sesión');
+                }
+            });
+        }
+
+        setTimeout(destroy, 3000)
+        
     } catch (error) {
         console.error ('Error al obtener el ticket:', error.message)
         res.status(500).json({ error: 'Internal Server Error' })
     }
 })
+
 
 router.post('/:cid/purchase', authenticateJWT, async (req, res) =>{
     try {
@@ -75,19 +89,31 @@ router.post('/:cid/purchase', authenticateJWT, async (req, res) =>{
                 
                 const cart = await cartsServices.findById(cid);
               
-                const { productsInStock, productsOutOfStock } = checkStock(cart)
-        
-                await productServices.checkStock(productsInStock);
-        
-                const totalPrice = total(cart)
-                const uid = req.user.user.id
-                const userEmail = await userServices.findById(uid)
+                let { productsInStock, productsOutOfStock } = checkStockInCart(cart)
+                if(productsOutOfStock.length){
+                    req.session.productsOutOfStock = productsOutOfStock;
+
+                    res.redirect(`/carts/${cid}/purchase`);
+                   
+                     await cartsServices.productOutStockCart(cid, productsOutOfStock )
+
+                    
+                }
+                else{
+                    
+                    await productServices.checkStock(productsInStock);
+                    
+                    const totalPrice = total(cart.products)
+                    const uid = req.user.user.id
+                    const userEmail = await userServices.findById(uid)
                 
-                await cartsServices.createTicket(totalPrice, userEmail)
+                    const ticket = await cartsServices.createTicket(totalPrice, userEmail)
+                    
+                    res.redirect(`/carts/${cid}/purchase`)
+                    
+                    await cartsServices.saveCart(cid)
+                }
                 
-                await cartsServices.upatedCart(cid, productsOutOfStock )
-                
-                res.redirect(`/carts/${cid}/purchase`);
                 
             } catch (error) {
                 console.error(error);

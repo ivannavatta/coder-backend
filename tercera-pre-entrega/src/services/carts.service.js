@@ -23,8 +23,8 @@ const findById = async (cid) => {
     const cart = await cartsStore.findById(cid)
     return cart
 }
-const upatedCart = async (cid, productsOutOfStock) => {
-    const productsOutOfStockInfo = await cartsStore.upatedCart(cid, productsOutOfStock)
+const productOutStockCart = async (cid, productsOutOfStock) => {
+    const productsOutOfStockInfo = await cartsStore.productOutStockCart(cid, productsOutOfStock)
     return productsOutOfStockInfo
 }
 const updated = async (cid, productid) => {
@@ -65,6 +65,12 @@ const addProduct = async (cid, pid) => {
     return product
 }
 
+const saveCart = async cid => {
+    const cart = await cartsStore.saveCart(cid)
+
+    return cart
+}
+
 module.exports = {
     getAll,
     findById,
@@ -76,6 +82,7 @@ module.exports = {
     updatedProductCart,
     delateOneProductInCart,
     delateAllProductsInCart,
-    upatedCart,
-    addProduct
+    productOutStockCart,
+    addProduct,
+    saveCart
 }

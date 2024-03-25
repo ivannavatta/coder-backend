@@ -27,31 +27,30 @@ class CartMongoDao{
         const ticketInfo = await Ticket.create(ticket)
         return ticketInfo
     }
-    async updatedCart(cid, productsOutOfStock) {
-        const cart = await Cart.findById(cid);
+    async removeProductOutStockCart(cid, productOutOfStock) {
+        try {
+            const cart = await Cart.findById(cid);
     
-        if (cart) {
-            const existingProducts = cart.products.map(item => item.product.toString());
-    
-            for (const product of productsOutOfStock) {
-                const productIdString = product.product._id.toString();
-    
-                // Verificar si el producto ya está en el carrito
-                if (existingProducts.includes(productIdString)) {
-                    // Si el producto ya está en el carrito, no hacer nada
-                    return;
-                }
-    
-                // Si el producto no está en el carrito, agregarlo
-                cart.products.push({
-                    product: product.product._id,
-                    quantity: product.quantity
+            if (cart) {
+                const productsToRemove = productOutOfStock.filter(product => product.product.stock === 0);
+                console.log('productsToRemove', productsToRemove);
+                // Eliminar los productos filtrados del carrito
+                productsToRemove.forEach(productToRemove => {
+                    const index = cart.products.findIndex(product => product._id.toString() === productToRemove._id.toString());
+                    if (index !== -1) {
+                        cart.products.splice(index, 1);
+                    }
                 });
+
+                
+                // Guardar los cambios en el carrito
+                await cart.save();
             }
-           
-            await cart.save();
+        } catch (error) {
+            console.error(error);
         }
     }
+    
     
     
     async existingProduct(cid, pid){
@@ -216,6 +215,12 @@ class CartMongoDao{
     async delated(id, status, deleteAt){
         const cart = await Cart.updateOne(id, status, deleteAt )
         return cart
+    }
+
+    async saveCart(cid){
+        const cart = await Cart.findById(cid)
+        cart.products = []
+        return cart.save()
     }
 
 }
