@@ -1,4 +1,4 @@
-const Product = require("../repository")
+const Product = require("../repositories/product")
 
 const getAll = async () => {
     return await Product.getAll()

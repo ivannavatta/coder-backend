@@ -108,7 +108,8 @@ router.post('/:cid/purchase', authenticateJWT, async (req, res) =>{
                     const userEmail = await userServices.findById(uid)
                 
                     const ticket = await cartsServices.createTicket(totalPrice, userEmail)
-                    
+                    const messageInfo = req.user.user
+                    await userServices.sendMessage(messageInfo)
                     res.redirect(`/carts/${cid}/purchase`)
                     
                     await cartsServices.saveCart(cid)

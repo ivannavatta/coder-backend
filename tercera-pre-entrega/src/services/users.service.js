@@ -1,4 +1,5 @@
 const NewUserDto = require('../DTOs/new-user.dto')
+const messageManager = require('../repositories/message')
 const userStore = require('../stores/users.store')
 
 
@@ -42,8 +43,10 @@ const updated = async (id, updated) => {
     return await userStore.updated(id, UserUpdated)
 }
 
+const sendMessage = async messageInfo => {
+    return await messageManager.sendMessage(messageInfo)
+}
 const deleted = async (id, status, deleteAt) => {
-   
     return await UsersStore.deleted(id, status, deleteAt)
 }
 
@@ -53,5 +56,6 @@ module.exports = {
     find,
     findById,
     updated,
+    sendMessage,
     deleted
 }
