@@ -7,10 +7,10 @@ class MessageManager{
     await transport.sendMail({
         from: email.identifier,
         to: messageInfo.email,
-        subject: 'Bienvenidos al himalaya',
+        subject: 'Bienvenido a iZenStore',
         html: `
         <div>
-        <h1>que pasa bot: ${messageInfo.first_name}
+        <h1>Gracias por realizar tu compra: ${messageInfo.first_name}
         </div>
        
         `,
