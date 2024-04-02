@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const authorization = require('../middlewares/authenticateRole.middleware')
-const generateProducts = require('../utils/facker.util')
+
 
 const router = Router()
 
@@ -23,9 +23,6 @@ router.get('/admin-panel', authorization('admin'), (req, res) => {
     res.render('admin-panel.handlebars', {style: 'style.css', isAuthenticate: true, admin})
 })
 
-router.get('/mockingproducts', ( req, res) => {
-    const product = generateProducts()
-    res.json({ message: product})
-})
+
 
 module.exports = router
