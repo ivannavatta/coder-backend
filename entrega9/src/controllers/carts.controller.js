@@ -165,7 +165,7 @@ router.put('/:cid', async (req, res) => {
     
 })
 //agregar productos
-router.patch('/:cid',  async (req, res) => {
+router.patch('/:cid', authorization('user'), async (req, res) => {
    
         const { cid } = req.params
         const { productid } = req.body
