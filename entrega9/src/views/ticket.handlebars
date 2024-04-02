@@ -1,64 +1,54 @@
+<div class="containerCart">
 {{#if productsOutOfStock.length}}
-<div class="products-in-stock">
     <h2>Productos en stock:</h2>
-     <div class="containerCart">
-        <section class='cartAlignment'>
-            <p class='cartTitle'>Product</p>
-            <p class='cartTitle'>Name</p>
-            <p class='cartTitle'>Price</p>
-            <p class='cartTitle'>Quantity</p>
-            <div class='trashContainer'>
-             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                    </svg>
-            </div>
-        </section>
-        <hr class='lineSize'></hr>
-        
             {{#each productsInStock}}
                 <div class="cartItem">
-                    <picture>
-                        <img src="{{this.product.thumbnail}}" class="cartImage" alt="{{this.product.name}}" />
-                    </picture>
-                    <p class="cartParagraph">{{this.product.name}}</p>
-                    <p class="cartParagraph">${{multiply this.product.price this.quantity}}</p>
-                    <p class="cartParagraph">{{this.quantity}}</p>
-                    <button class="trashIcon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                    </svg>
-                    </button >
+                <div class="productInfo">
+                    <div class="productImageContainer">
+                        <img src="{{this.product.thumbnail}}" class="productImage" alt="{{this.product.name}}" />
+                    </div>
+                    <div class="productDetails">
+                        <div class="titleProduct">
+                        <p class="productName">{{this.product.name}}</p>
+                        <p class="productStock"> {{this.quantity}}</p>
+                        <p class="productPrice">${{multiply this.product.price this.quantity}}</p>
+                        </div>
+                       <p class="trashIcon" data-pid="{{this.product._id}}">Remove</p>
+                        <hr class="lineSeparator">
+                        <p class="productDescription">{{this.product.description}}</p>
+                        <hr class="lineSeparator">
+                        <p class="shippingInfo">Enter your postal code to calculate shipping</p>
+                    </div>
                 </div>
-                <hr>
+                <hr class="lineSeparatorProducts">
+            </div>
             {{/each}}
-    </div>
-</div>
+
 
 <div class="products-out-of-stock">
     <h2>Productos fuera de stock:</h2>
-    <div class="products-in-stock">
-     <div class="containerCart">
-        <section class='cartAlignment'>
-            <p class='cartTitle'>Product</p>
-            <p class='cartTitle'>Name</p>
-            <p class='cartTitle'>Price</p>
-            <p class='cartTitle'>Quantity</p>
-        </section>
-        <hr class='lineSize'></hr>
-        
+    
             {{#each productsOutOfStock}}
-                <div class="cartItem">
-                    <picture>
-                        <img src="{{this.product.thumbnail}}" class="cartImage" alt="{{this.product.name}}" />
-                    </picture>
-                    <p class="cartParagraph">{{this.product.name}}</p>
-                    <p class="cartParagraph">${{this.product.price}}</p>
-                    <p class="cartParagraph">{{this.quantity}}</p>
+               <div class="cartItem">
+                <div class="productInfo">
+                    <div class="productImageContainer">
+                        <img src="{{this.product.thumbnail}}" class="productImage" alt="{{this.product.name}}" />
+                    </div>
+                    <div class="productDetails">
+                        <div class="titleProduct">
+                        <p class="productName">{{this.product.name}}</p>
+                        <p class="productStock"> {{this.quantity}}</p>
+                        <p class="productPrice">${{multiply this.product.price this.quantity}}</p>
+                        </div>
+                       <p class="trashIcon" data-pid="{{this.product._id}}">Remove</p>
+                        <hr class="lineSeparator">
+                        <p class="productDescription">{{this.product.description}}</p>
+                    </div>
                 </div>
-                <hr>
+                <hr class="lineSeparatorProducts">
+            </div>
             {{/each}}
-    </div>
-</div>
+
 </div>
 
   <div class='totalPrice'>
@@ -70,7 +60,8 @@
         </div>
 
        
-        <button type="button" id="hola">comprar</button>
+        <button type="button" id="buyButton">Finalizar compra</button>
+        </div>
         {{else}}
         <div class="success-message">
             <h1>Congratulations {{user}}, your purchase was successful!</h1>
@@ -78,5 +69,6 @@
             <p class="email-sent">An email with more details about your purchase has been sent.</p>
         </div>
         {{/if}}
+        
        
   <script src="/js/ticket.js"></script>

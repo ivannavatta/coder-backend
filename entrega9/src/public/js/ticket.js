@@ -1,4 +1,4 @@
-const button1 = document.getElementById('hola')
+const button1 = document.getElementById('buyButton')
 
 button1.addEventListener('click', async () => {
     try {
