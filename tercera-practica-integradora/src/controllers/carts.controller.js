@@ -169,11 +169,20 @@ router.put('/:cid', async (req, res) => {
     
 })
 //agregar productos
-router.patch('/:cid', authorization('user'), async (req, res) => {
+router.patch('/:cid', authorization(['user', 'premium']), async (req, res) => {
    
         const { cid } = req.params
         const { productid } = req.body
 
+        const product = await productServices.findById(productid)
+
+        const productOwner = product.owner.email
+
+        const userOwner = req.user.user.email
+
+        if(productOwner === userOwner){
+            return res.status(200).json({ message: 'you cannot add your products to the cart'})
+        }
          const cartUpdated = await cartsServices.addProduct( cid, productid)
         res
         
