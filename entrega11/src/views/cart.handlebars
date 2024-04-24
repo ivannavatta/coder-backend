@@ -1,0 +1,55 @@
+<div class="containerCart">
+    {{#with cartById}}
+        {{#each products}}
+            <div class="cartItem">
+                <div class="productInfo">
+                    <div class="productImageContainer">
+                        <img src="{{this.product.thumbnail}}" class="productImage" alt="{{this.product.name}}" />
+                    </div>
+                    <div class="productDetails">
+                        <div class="titleProduct">
+                        <p class="productName">{{this.product.name}}</p>
+                        <p class="productStock"> {{this.quantity}}</p>
+                        <p class="productPrice">${{multiply this.product.price this.quantity}}</p>
+                        </div>
+                       <p class="trashIcon" data-pid="{{this.product._id}}">Remove</p>
+                        <hr class="lineSeparator">
+                        <p class="productDescription">{{this.product.description}}</p>
+                        <hr class="lineSeparator">
+                        <p class="shippingInfo">Enter your postal code to calculate shipping</p>
+                    </div>
+                </div>
+                <hr class="lineSeparatorProducts">
+            </div>
+        {{/each}}
+    {{/with}}
+   
+    <div class="totalPrice">
+        <h3 class="totalText">Total: ${{this.totalPrice}}</h3>
+    </div>
+
+    <button type="button" id="buyButton">Buy Now</button>
+</div>
+
+
+
+
+   <script src="/js/ticket.js"></script>
+   <script src="/js/products.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

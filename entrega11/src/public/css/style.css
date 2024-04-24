@@ -1,0 +1,510 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+  
+  /* admin panel */
+
+  .admin-panel {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-form {
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.btn-submit {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #141414;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background-color: #b0b0b0;
+}
+
+.error-message {
+    margin-top: 10px;
+    color: #ff0000;
+    font-weight: bold;
+}
+
+  /* navbar */
+
+  .navbar {
+    background-color: #141414;
+    padding: 10px 0;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.brand {
+    color: #fff;
+    font-size: 24px;
+}
+
+.nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-list li {
+    margin-right: 20px;
+}
+
+.nav-list a {
+    text-decoration: none;
+    color: #b0b0b0;
+    font-size: 16px;
+}
+
+.nav-list a:hover {
+    color: #fff;
+}
+
+/* cart */
+
+.cart a {
+  display: flex; /* Hace que el contenedor de enlace se comporte como un flexbox */
+  align-items: center; /* Alinea verticalmente los elementos */
+  text-decoration: none;
+  color: inherit; /* Hereda el color del texto */
+}
+
+.cart {
+  color: #fff;
+  position: relative;
+  margin-left: 20px; /* Añade un margen a la izquierda para acercarlo al elemento 'li' de 'Support' */
+}
+
+.cart svg {
+  width: 20px;
+  height: auto;
+  margin-right: 5px;
+  stroke: #fff; /* Añade un borde blanco alrededor del SVG */
+  stroke-width: 1; /* Ajusta el grosor del borde según tu diseño */
+}
+
+.cart-items {
+  position: absolute;
+  top: 60%;
+  right: 2px;
+  transform: translateY(-50%);
+  background-color: #fff;
+  color: #000;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid #fff; /* Añade un borde blanco alrededor del número de elementos */
+}
+
+
+/* productos */
+
+.containerTitle{
+  max-width: 640px;
+  padding: 80px 0 64px;
+}
+h1{
+  font-size: 48px;
+  line-height: 1.08349;
+  font-weight: 600;
+  letter-spacing: -.003em;
+  display: inline;
+}
+
+.subTitle{
+  font-size: 48px;
+  line-height: 1.08349;
+  font-weight: 600;
+  letter-spacing: -.003em;
+  display: inline;
+  color: #555;
+}
+h2{
+  text-align: center;
+}
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    margin: 0 auto; 
+    max-width: 1200px; 
+  }
+  
+  .card {
+    width: 100%; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .card-body {
+    flex-grow: 1; 
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .product-title {
+    font-size: 16px;
+    margin: 0 0 8px;
+  }
+  
+  .product-description {
+    font-size: 12px;
+    color: #555;
+  }
+  
+  .product-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .price {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .add-to-cart {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .add-to-cart:hover {
+    background-color: #0056b3;
+  }
+  
+
+    /* paginacion */
+
+    .pagination-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+  }
+  
+  .pagination-button {
+      background-color: #222;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      margin: 0 10px;
+      text-decoration: none;
+      transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .pagination-button:hover {
+      background-color: #444;
+      transform: scale(1.05);
+  }
+  
+
+
+
+  
+     /*Estilos para carrito */
+  
+     .containerCart {
+      width: 100%;
+      max-width: 700px; /* Ancho máximo del carrito */
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 5px;
+  }
+  
+  .cartItem {
+    margin-top: 60px;
+      margin-bottom: 20px;
+  }
+  .titleProduct{
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .productInfo {
+      display: flex;
+      align-items: flex-start;
+  }
+  
+  .productImageContainer {
+      width: 200px; /* Ancho del contenedor de la imagen */
+      margin-right: 20px;
+  }
+  
+  .productImage {
+      width: 100%; /* Ajustar la imagen al 100% del contenedor */
+      height: auto;
+  }
+  
+  .productDetails {
+      flex: 1;
+  }
+  
+  .productName {
+      font-size: 20px; /* Tamaño del nombre del producto */
+      font-weight: bold;
+      margin: 0;
+      margin-bottom: 10px; /* Espacio inferior */
+  }
+  
+  .productPrice,
+  .productStock {
+      font-size: 20px;
+      margin: 0;
+  }
+
+  .trashIcon{
+    cursor: pointer;
+    color: #0056b3;
+    font-weight: bold;
+    text-align: end;
+  }
+  
+  .productDescription {
+      font-size: 14px;
+  }
+  
+  .shippingInfo {
+      font-size: 14px;
+      margin-bottom: 20px;
+  }
+  
+  .totalPrice {
+      text-align: right;
+  }
+  
+  .totalText {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+  }
+  
+  #buyButton {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #0056b3;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+  }
+  
+  #buyButton:hover {
+      background-color: #077be0;
+  }
+  .lineSeparatorProducts{
+    margin-top: 30px;
+  }
+  
+  
+  
+  
+  /* login */
+
+  .github-btn {
+    margin-top: 20px;
+}
+
+.github-btn button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: transparent;
+    color: #000;
+    padding: 10px;
+    border: 2px solid #000;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.github-icon {
+    margin-right: 8px;
+}
+
+
+
+
+  .super-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-title {
+    color: #333;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.form-label {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.form-input {
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.login-btn {
+  background-color: transparent;
+  color: #000;
+  padding: 10px;
+  border: 2px solid #000;
+  border-radius: 20px;
+  cursor: pointer;
+ 
+}
+
+.login-btn:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.signup-link {
+    margin-top: 10px;
+}
+
+.signup {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.signup2 {
+  color: #fff;
+  text-decoration: none;
+}
+
+.restore-password {
+  color: #007bff;
+  text-decoration: none;
+}
+
+/* ticket */
+
+.success-message {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.success-message h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+.success-message p.purchase-code {
+  font-size: 18px;
+  color: #000;
+  margin-top: 20px;
+}
+
+.success-message p.purchase-code span {
+  font-weight: bold;
+  color: #000;
+}
+
+.success-message p.email-sent {
+  font-size: 16px;
+  color: #777;
+  margin-top: 10px;
+}
+
+
+  
+  
+  
+  
