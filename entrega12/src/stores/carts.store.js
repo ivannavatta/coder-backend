@@ -8,8 +8,8 @@ const getAll = async () => {
 }
 
 const create = async (newCartInfo) => {
-    await Cart.create(newCartInfo)
-    return 'Cart created'
+    return await Cart.create(newCartInfo)
+    
 }
 
 const find = async (cid) => {

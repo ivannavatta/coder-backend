@@ -11,10 +11,16 @@ let cookie
 describe('Testing avanzado', () => {
    
         describe('Testing sessions', () => {
-            xit("El endpoint POST /auth debe verficar si el usario se autentico correctamente", async () => {
+            it("El endpoint POST /auth debe verficar si el usario se autentico correctamente", async () => {
+                //role admin
+                // const userMock = {
+                //     email: "boss@gmail.com",
+                //     password: "boss"
+                // }
+                //role user
                 const userMock = {
-                    email: "boss@gmail.com",
-                    password: "boss"
+                    email: "user@gmail.com",
+                    password: "user"
                 }
     
                 const response = await requester
@@ -45,7 +51,7 @@ describe('Testing avanzado', () => {
                expect(_body.payload.email).to.be.eql('boss@gmail.com')
             })
 
-            it('al registrarse un usario debe devolver un status 201 si se hizo correctamente, tambien verificar que el email no exista al momento de crear el usario', async function(){
+            xit('al registrarse un usario debe devolver un status 201 si se hizo correctamente, tambien verificar que el email no exista al momento de crear el usario', async function(){
                 const userMock = {
                     first_name: 'user',
                     last_name: 'user',
@@ -131,6 +137,44 @@ describe('Testing avanzado', () => {
             expect(_body).to.have.property('payload').that.is.an('array');
         })
 
+        })
+
+        describe('Testing carts', () => {
+            xit('Verifica que la solicitud devuelva un código de estado 200, tambien verifica que la respuesta contenga una propiedad payload con una lista de carritos, en el metodo GET /carts', async function(){
+                
+                const { statusCode, ok, _body } = await requester.get('/carts')
+                console.log("🚀 ~ it ~ _body:", _body)
+                console.log("🚀 ~ it ~ ok:", ok)
+                console.log("🚀 ~ it ~ statusCode:", statusCode)
+                expect(statusCode).to.be.eql(200)
+                expect(_body).to.have.property('payload')
+            })
+
+            xit('Verifica que todos los productos hayan sido eliminados del carrito correctamente en el metodo DELETE /carts/:cid (crear un nuevo carrito, agregar productos al mismo y por ultimo eliminar los productos).', async function(){
+                const product = {productid: '6637caea4483308371f83afa' }
+                
+
+                const postResponse = await requester.post(`/carts`)
+                console.log('postResponse:', postResponse.statusCode, postResponse.ok, postResponse._body);
+                expect(postResponse.statusCode).to.be.eql(201)
+
+                const cid = postResponse._body.payload._id
+
+                const patchResponse = await requester.patch(`/carts/${cid}`).send(product).set("Cookie", `${cookie.name}=${cookie.value}`)
+                console.log('patchResponse:', patchResponse.statusCode, patchResponse.ok, patchResponse._body);
+                expect(patchResponse.statusCode).to.be.eql(200);
+                expect(patchResponse.ok).to.be.true;
+
+                const { statusCode, ok, _body } = await requester.delete(`/carts/${cid}`)
+                console.log("🚀 ~ it ~ _body:", _body)
+                console.log("🚀 ~ it ~ ok:", ok)
+                console.log("🚀 ~ it ~ statusCode:", statusCode)
+                expect(postResponse._body.payload).to.have.property('products').that.is.an('array').that.is.empty
+                
+            })
+
+            it()
+        
         })
     
 });
