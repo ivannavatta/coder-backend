@@ -1,0 +1,6 @@
+{
+  "watch": ["src", "configs", "router", "middlewares", "factory", "*.yaml"],
+  "ext": "js,json,hbs, yaml",
+  "ignore": ["node_modules"],
+  "exec": "node src/index.js"
+}

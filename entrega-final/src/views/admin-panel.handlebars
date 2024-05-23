@@ -1,0 +1,107 @@
+<h2>Admin Panel</h2>
+<div class="admin-panel">
+        <h2>Add Product</h2>
+        <form action="" id="form-add-product" class="admin-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label for="stock">Stock</label>
+                <input type="text" id="stock" name="stock" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="text" id="price" name="price" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label for="thumbnail">Thumbnail</label>
+                <input type="text" id="thumbnail" name="thumbnail" class="form-input">
+            </div>
+
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
+
+        <h2>Update Product</h2>
+        <form action="" id="form-update-product" class="admin-form">
+            <div class="form-group">
+                <label for="ProductUpdatedId">Product ID</label>
+                <input type="text" id="ProductUpdatedId" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label for="updatedName">Name</label>
+                <input type="text" id="updatedName" name="name" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label for="updatedDescription">Description</label>
+                <input type="text" id="updatedDescription" name="description" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label for="updatedStock">Stock</label>
+                <input type="text" id="updatedStock" name="stock" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label for="updatedPrice">Price</label>
+                <input type="text" id="updatedPrice" name="price" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label for="updatedThumbnail">Thumbnail</label>
+                <input type="text" id="updatedThumbnail" name="thumbnail" class="form-input">
+            </div>
+
+            <button type="submit" class="btn-submit">Submit</button>
+            <p id="error-message" class="error-message"></p>
+        </form>
+
+        <h2>Delete Product</h2>
+        <form action="" id="form-delete-product" class="admin-form">
+            <div class="form-group">
+                <label for="ProductId">Product ID</label>
+                <input type="text" id="ProductId" class="form-input">
+            </div>
+
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
+
+         
+           <h2>Find User</h2>
+    <form action="" id="form-find-user" class="admin-form">
+        <div class="form-group">
+            <label for="UserId">User ID</label>
+            <input type="text" id="UserId" class="form-input">
+        </div>
+        <button type="submit" class="btn-submit">Submit</button>
+    </form>
+
+    <div id="view-user" class="user-card"></div>
+
+    <h2>Delete User</h2>
+        <form action="" id="form-delete-user" class="admin-form">
+            <div class="form-group">
+                <label for="deleteUserId">User ID</label>
+            <input type="text" id="deleteUserId" class="form-input">
+            </div>
+
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/addProduct.js"></script>
+<script src="/js/deleteProduct.js"></script>
+<script src="/js/updateProduct.js"></script>
+<script src="/js/getUser.js"></script>
+<script src="/js/deleteUser.js"></script>
