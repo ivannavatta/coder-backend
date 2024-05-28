@@ -1,27 +1,26 @@
-const button1 = document.getElementById('buyButton')
-
-button1.addEventListener('click', async () => {
+window.addEventListener('DOMContentLoaded', async () => {
     try {
-        const cid = window.location.pathname.split('/')[2];
-        const res = await fetch(`/carts/${cid}/purchase`,{
-            method: 'POST'
-        })
-        
+        let cartId;
+        const response = await fetch('/users/user-cart');
+        const data = await response.json();
+        cartId = data.payload;
+        console.log('cid', cartId);
 
-        if (res.ok) {
-            if (res.redirected) {
-                window.location.href = res.url;
-            } else {
-                return res.json();
-            }
-            // Aquí puedes redirigir al usuario a la página del ticket o mostrar un mensaje de éxito
-        }  if (data.redirect) {
-            window.location.href = data.redirect;
+        const res = await fetch(`/api/payments/payment-intents/${cartId}`, {
+            method: 'POST'
+        });
+
+        const dataa = await res.json();
+        console.log("🚀 ~ button1.addEventListener ~ data:", dataa)
+        if (dataa.payload) {
+            const clientSecret = dataa.payload;
+            document.getElementById('clientSecretInput').value = clientSecret;
+
         } else {
-            console.log(data);
+            console.error('Client secret not found');
         }
-        
+
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
-})
+});

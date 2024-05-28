@@ -118,7 +118,7 @@ router.put('/:id' , authorization('admin'), async (req, res) => {
         req.logger.error(error.message)
         res
         .status(500)
-        .json({ status: 'error', error})
+        .json({ status: 'error', error: error.message})
     }
     
 })

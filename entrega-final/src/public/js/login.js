@@ -1,34 +1,34 @@
 const form = document.getElementById('loginForm')
+const error = document.getElementById('error-message')
 
-form.addEventListener('submit', e => {
-    e.preventDefault()
-
-    const data = new FormData(form)
-
-    const obj = {}
-
-    data.forEach((value, key) => (obj[key] = value))
-
-    fetch('/auth', {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        method: "POST",
-        body: JSON.stringify(obj)
-    })
-    .then(res => {
-        if (res.redirected) {
-            window.location.href = res.url;
+error.style.display = 'none';
+form.addEventListener('submit', async e => {
+    try {
+        e.preventDefault()
+    
+        const data = new FormData(form)
+    
+        const obj = {}
+    
+        data.forEach((value, key) => (obj[key] = value))
+    
+        const res = await fetch('/auth', {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: "POST",
+            body: JSON.stringify(obj)
+        })
+       
+        if (res.ok) {
+            const info = await res.json();
+            window.location.href = info.redirect;
         } else {
-            return res.json();
+            const errorData = await res.json();
+            error.style.display = 'block';
+            error.textContent = errorData.error;
         }
-    })
-    .then(data => {
-        if (data.redirect) {
-            window.location.href = data.redirect;
-        } else {
-            console.log(data);
-        }
-    })
-    .catch(err => console.log(err))
+    } catch (error) {
+        console.log(error);
+    }
 });

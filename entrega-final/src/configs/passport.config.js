@@ -25,7 +25,7 @@ const initializePassport = () => {
                 
                 if(user){
                     req.logger.info('User exists');
-                     return done(null, false)
+                     return done(null, false, { message: 'Email already exists' })
                 } 
                 
                 const newUser = await userServices.create(req.body, password)

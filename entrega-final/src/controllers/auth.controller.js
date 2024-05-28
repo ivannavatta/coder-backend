@@ -6,27 +6,21 @@ const { createHash, useValidPassword } = require('../utils/crypt-password.util')
 
 const router = Router()
 
-router.post('/', passport.authenticate('login', {failureRedirect: '/auth/fail-login', session: false}), async (req, res) =>{
-    try {
-        res.cookie('authToken', req.user, {maxAge: 36000000, httpOnly: true})
-        // res.status(200).json({status: 'success', payload: 'The user logged in'})
-        res.redirect('/products');
-       
-    } catch (error) {
-        req.logger.error(error.message)
-        res
-        .status(500)
-        .json({ status: 'error', error: 'Interal Server Error'})
-    }
-    
+router.post('/', async (req, res, next) => {
+    passport.authenticate('login', { session: false }, (err, user, ) => {
+        if (err) {
+            req.logger.error(err.message);
+            return res.status(500).json({ status: 'error', error: 'Internal Server Error' });
+        }
+        if (!user) {
+            // Aquí se maneja el caso de usuario no encontrado o contraseña incorrecta
+            return res.status(400).json({ status: 'error', error: 'Bad Request' });
+        }
+        res.cookie('authToken', user, { maxAge: 36000000, httpOnly: true });
+        return res.json({ status: 'success', redirect: '/products' });
+    })(req, res, next);
+});
 
-})
-
-router.get('/fail-login', (req, res) => {
-    res
-    .status(400)
-    .json({ status: 'error', error: 'Bad request'})
-})
 
 
 

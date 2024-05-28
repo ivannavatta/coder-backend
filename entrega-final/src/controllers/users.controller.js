@@ -6,44 +6,55 @@ const cron = require('node-cron')
 const router = Router()
 
 router.get('/', async (req, res) => {
-    const users = await userServices.getAll()
-    res.status(200).json({status: 'success', payload: users})
+    try {
+        const users = await userServices.getAll()
+        res.status(200).json({status: 'success', payload: users})
+        
+    } catch (error) {
+        req.logger.error(error.message)
+        res.status(500).json({ status: 'error', error });
+    }
 })
 
-router.get('/:uid', async (req, res) => {
-    const { uid } = req.params
-    const user = await userServices.findById(uid)
-    res.status(200).json({status: 'success', payload: user})
-})
 
 router.get('/user-cart', authenticateJWT, async (req, res) => {
-    const uid = req.user.user.id
-    const userCart = await userServices.findById(uid)
-     res.json({ payload: userCart.cart})
+    try {
+        const uid = req.user.user.id
+        const userCart = await userServices.findById(uid)
+        res.json({ payload: userCart.cart})
+        
+    } catch (error) {
+        req.logger.error(error.message)
+        res.status(500).json({ status: 'error', error });
+    }
 })
 
-router.post('/', passport.authenticate('register', {failureRedirect: '/users/fail-register', session: false}), async (req, res) => {
+router.post('/', passport.authenticate('register', { failureRedirect: '/users/fail-register', session: false }), async (req, res) => {
     try {
-        res
-        .status(201)
-        .json({ status: 'Success', message: 'User created'})
+        res.status(201).json({ status: 'Success', message: 'User created' });
     } catch (error) {
-        if (error.code === 11000 && error.keyPattern.email) {
-            return res.status(400).json({ message: 'Email already exists' });
-        }
-        req.logger.error(error.message)
-        res
-        .status(500)
-        .json({ status: 'Error', error: 'Internal Server Error'})
+        console.log(error);
+        req.logger.error(error.message);
+        res.status(500).json({ status: 'Error', error: 'Internal Server Error' });
     }
-   
-})
+});
 
 router.get('/fail-register', (req, res) => {
-    res
-    .status(400)
-    .json({ status: 'error', error: 'Bad request'})
+    res.status(400).json({ status: 'Error', message: 'Email already exists' });
+});
+
+router.get('/:uid', async (req, res) => {
+    try {
+        const { uid } = req.params
+        const user = await userServices.findById(uid)
+        res.status(200).json({status: 'success', payload: user})
+        
+    } catch (error) {
+        req.logger.error(error.message)
+        res.status(500).json({ status: 'error', error });
+    }
 })
+
 
 router.patch('/premium/:uid', async (req, res) => {
     try {

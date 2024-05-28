@@ -45,22 +45,27 @@ router.get('/:cid',authenticateJWT, async (req, res) => {
     }
 });
 
-router.get('/:cid/purchase', authenticateJWT, async (req, res) => {
+router.get('/:cid/check-stock', authenticateJWT, async (req, res) => {
     try {
         const { cid } = req.params
         const cart =  await cartsServices.findById(cid)
         if (!cart) {
             return res.status(404).json({ error: 'Error a ver la orden de compra.'})
         } 
-        const { productsInStock } = checkStockInCart(cart)
+        const { productsInStock, productsOutOfStock } = checkStockInCart(cart)
         const totalPrice = total(productsInStock)
-        const productsOutOfStock = req.session.productsOutOfStock || [];
+        if(productsOutOfStock.length){
+            req.session.productsOutOfStock = productsOutOfStock;   
+
+            await cartsServices.productOutStockCart(cid, productsOutOfStock )
+        }
+         const productsOutOfStockSession = req.session.productsOutOfStock || [];
        
         const user = req.user.user.first_name
-        res.render ('ticket.handlebars', { 
+        res.render ('stock.handlebars', { 
             style: 'style.css',
             productsInStock,
-            productsOutOfStock,
+            productsOutOfStockSession,
             cart,
             user,
             totalPrice
@@ -83,6 +88,20 @@ router.get('/:cid/purchase', authenticateJWT, async (req, res) => {
     }
 })
 
+router.get('/:cid/purchase', authenticateJWT, async (req, res) => {
+    try {
+        const user = req.user.user.first_name
+        res.render ('ticket.handlebars', { 
+            style: 'style.css',
+            user,
+        })
+    
+    } catch (error) {
+        req.logger.error('Error al obtener el ticket:', error.message)
+        res.status(500).json({ error: 'Internal Server Error' })
+    }
+})
+
 
 router.post('/:cid/purchase', authenticateJWT, async (req, res) =>{
     try {
@@ -90,17 +109,8 @@ router.post('/:cid/purchase', authenticateJWT, async (req, res) =>{
                 
                 const cart = await cartsServices.findById(cid);
               
-                let { productsInStock, productsOutOfStock } = checkStockInCart(cart)
-                if(productsOutOfStock.length){
-                    req.session.productsOutOfStock = productsOutOfStock;
-
-                    res.redirect(`/carts/${cid}/purchase`);
-                   
-                     await cartsServices.productOutStockCart(cid, productsOutOfStock )
-
-                    
-                }
-                else{
+                let { productsInStock } = checkStockInCart(cart)
+              
                     
                     await productServices.checkStock(productsInStock);
                     
@@ -111,13 +121,14 @@ router.post('/:cid/purchase', authenticateJWT, async (req, res) =>{
                     const ticket = await cartsServices.createTicket(totalPrice, userEmail)
                     const messageInfo = req.user.user
                     await userServices.sendMessage(messageInfo)
-                    res.redirect(`/carts/${cid}/purchase`)
+                    res.json({status: 'Success', redirect: `/carts/${cid}/purchase`});
                     
                     await cartsServices.saveCart(cid)
-                }
+                
                 
                 
             } catch (error) {
+                console.log("🚀 ~ router.post ~ error:", error)
                 req.logger.error(error.message)
                 res.status(500).json({ status: 'error', error });
             }
@@ -152,7 +163,7 @@ router.put('/:cid/products/:pid', async (req, res) => {
     
 })
 
-//TAMPOCO FUNCIONA
+
 router.put('/:cid', async (req, res) => {
     try {
         const { cid } = req.params

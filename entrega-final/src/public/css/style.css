@@ -385,6 +385,11 @@ h2{
   
   
   /* login */
+  .error-message-login {
+    background: rgb(255, 0, 0);
+    padding: 10px;
+    font-weight: bold;
+  }
 
   .github-btn {
     margin-top: 20px;
@@ -514,6 +519,28 @@ h2{
   font-size: 16px;
   color: #777;
   margin-top: 10px;
+}
+
+/* Stripe */
+
+.StripeElement {
+  box-sizing: border-box;
+  height: 40px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  transition: box-shadow 150ms ease;
+}
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
 }
 
 

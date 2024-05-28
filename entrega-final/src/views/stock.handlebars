@@ -1,0 +1,78 @@
+<div class="containerCart">
+{{#if productsInStock.length}}
+    <h2>Productos en stock:</h2>
+            {{#each productsInStock}}
+                <div class="cartItem">
+                <div class="productInfo">
+                    <div class="productImageContainer">
+                        <img src="{{this.product.thumbnail}}" class="productImage" alt="{{this.product.name}}" />
+                    </div>
+                    <div class="productDetails">
+                        <div class="titleProduct">
+                        <p class="productName">{{this.product.name}}</p>
+                        <p class="productStock"> {{this.quantity}}</p>
+                        <p class="productPrice">${{multiply this.product.price this.quantity}}</p>
+                        </div>
+                       <p class="trashIcon" data-pid="{{this.product._id}}">Remove</p>
+                        <hr class="lineSeparator">
+                        <p class="productDescription">{{this.product.description}}</p>
+                        <hr class="lineSeparator">
+                        <p class="shippingInfo">Enter your postal code to calculate shipping</p>
+                    </div>
+                </div>
+                <hr class="lineSeparatorProducts">
+            </div>
+            {{/each}}
+
+
+<div class="products-out-of-stock">
+    <h2>Productos fuera de stock:</h2>
+    {{#if productsOutOfStockSession.length}}
+            {{#each productsOutOfStockSession}}
+               <div class="cartItem">
+                <div class="productInfo">
+                    <div class="productImageContainer">
+                        <img src="{{this.product.thumbnail}}" class="productImage" alt="{{this.product.name}}" />
+                    </div>
+                    <div class="productDetails">
+                        <div class="titleProduct">
+                        <p class="productName">{{this.product.name}}</p>
+                        <p class="productStock"> {{this.quantity}}</p>
+                        <p class="productPrice">${{multiply this.product.price this.quantity}}</p>
+                        </div>
+                       <p class="trashIcon" data-pid="{{this.product._id}}">Remove</p>
+                        <hr class="lineSeparator">
+                        <p class="productDescription">{{this.product.description}}</p>
+                    </div>
+                </div>
+                <hr class="lineSeparatorProducts">
+            </div>
+            {{/each}}
+    {{else}}
+            <p>No se encuentran productos fuera de stock</p>
+            {{/if}}
+</div>
+
+  <div class='totalPrice'>
+            <h3 class='totalText'> Total </h3>
+             <h3></h3>
+            <h3></h3>
+            <h3></h3>
+            <h3 class='totalText'> ${{this.totalPrice}} </h3>
+        </div>
+
+       
+        <button type="button" id="buyButton2" >Finalizar compra</button>
+        </div>
+       
+        {{/if}}
+        
+       
+
+
+  <script>
+    const button2 = document.getElementById('buyButton2')
+    button2.addEventListener('click', function(){
+    window.location.href = '/payment'
+})
+  </script>

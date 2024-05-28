@@ -1,6 +1,7 @@
 const { Router } = require('express')
 const authorization = require('../middlewares/authenticateRole.middleware')
 const sessionTimeout = require('../middlewares/accessOneHour.middleware')
+const authenticateJWT = require('../middlewares/authenticateToken.middleware')
 
 
 
@@ -36,6 +37,10 @@ router.get('/forgot-password', (req, res) => {
 
 router.get('/restart-password', sessionTimeout,  (req, res) => {
     res.render('restart-password.handlebars', {style: 'style.css'})
+})
+
+router.get('/payment', authenticateJWT, (req, res) => {
+    res.render('payment.handlebars', {style: 'style.css'})
 })
 
 

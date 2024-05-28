@@ -26,11 +26,12 @@ form.addEventListener('submit', async (e) => {
             method: fetchParams.method,
             body: fetchParams.body,
         });
-
+        console.log(response);
         const result = await response.json();
+        console.log(result);
         if (response.ok) {
             window.location.href = '/login';
-        } else if (response.status === 400 && result.error === 'Email already exists') {
+        } else if (response.status === 400 && result.message === 'Email already exists') {
             errorMessage.textContent = 'Este correo electrónico ya está registrado';
             errorMessage.style.display = 'block'; 
         } else {
@@ -41,4 +42,5 @@ form.addEventListener('submit', async (e) => {
         console.log(error);
     }
 });
+
 
